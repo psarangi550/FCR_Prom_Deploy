@@ -2,6 +2,7 @@ from flask_restx import Resource,Namespace
 import time
 from datetime import datetime,date
 from json import dumps
+import random
 # here the NameSpace will act like the blueprint in flask 
 
 ns=Namespace("api")
@@ -33,15 +34,18 @@ def generate_instant_metrics():
 	}
 	return data
 
-
+def generate_aggrgated_format():
+    result=[]
+    list_of_edgebox=["fcrvirt427e8","fcrvirt427e6"]
+    data={"host":random.choice(list_of_edgebox),"datetime":datetime.isoformat(datetime.now()),"metric":"host_box_running_application_count","value":random.randint(1,10)}
+    return data
+     
 
 def generate_aggregated_metrics():
     result=[]
     for _ in range(18):
-        time.sleep(0.1)
-        result.append(generate_instant_metrics())
+        result.append(generate_aggrgated_format())
     return result
-    
 
 @ns.route("/promapi")
 class Home(Resource):
@@ -56,5 +60,5 @@ class Home(Resource):
 class AggreGateMetrics(Resource):
     
     def get(delf):
-        aggregate=dumps(generate_aggregated_metrics())
-        return {"aggregated_result":aggregate}
+        aggregate=generate_aggregated_metrics()
+        return {"aggregate":True,"payload":aggregate}
