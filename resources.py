@@ -52,6 +52,6 @@ class Home(Resource):
     def get(self):
         data = generate_instant_metrics()
         args=request.values
-        data["query_args"]=args
+        data["args"]=args
         return jsonify(data)
 
