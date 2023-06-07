@@ -1,4 +1,5 @@
 from flask_restx import Resource, Namespace
+from flask import jsonify
 import time
 import datetime
 from datetime import datetime, timedelta
@@ -50,5 +51,5 @@ def generate_instant_metrics():
 class Home(Resource):
     def get(self):
         data = generate_instant_metrics()
-        return {"data": data}
+        return jsonify(data)
 
