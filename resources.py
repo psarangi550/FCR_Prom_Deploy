@@ -51,7 +51,8 @@ def generate_instant_metrics():
 class Home(Resource):
     def get(self):
         data = generate_instant_metrics()
-        args=request.values
-        data["args"]=args
+        args=request.args
+        if args is not None:
+            data["args"]=args
         return jsonify(data)
 
